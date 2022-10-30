@@ -1,7 +1,27 @@
 html
     head
-        title Basic Auth demo
+        title Private
     body
-        h1 This page is only for logged users
-        h2 Welcome #{user.username}
-        a(href='/', title='Home') Home
+        h1 Welcome #{username}
+        li: a(href='/logout', title='Log Out') Log Out
+        ul
+            li: <table>
+            <tr>
+            <th>Team 1</th>
+            <th>Points 1</th>
+            <th>Team 2</th>
+            <th>Points 2</th>
+            </tr>
+            <tr>
+            <td>#{data[0].teams[0].name}</td>
+            <td>#{data[0].teams[0].points}</td>
+            <td>#{data[0].teams[1].name}</td>
+            <td>#{data[0].teams[1].points}</td>
+            <tr>
+            <td>#{data[1].teams[0].name}</td>
+            <td>#{data[1].teams[0].points}</td>
+            <td>#{data[1].teams[1].name}</td>
+            <td>#{data[1].teams[1].points}</td>
+            </table>
+
+

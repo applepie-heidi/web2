@@ -1,10 +1,28 @@
 html
     head
-        title Basic Auth demo
+        title Public
     body
-        if user
-            h1 Welcome #{user.username}
+        if username
+            h1 Welcome #{username}
+            li: a(href='/logout', title='Log Out') Log Out
+        else
+            li: a(href='/private') Log In
         ul
-            li: a(href='/', title='Home') Home
-            li: a(href='/private') Private content (only for Alice and Bob)
-            li: <span>Note: Use <i>some password</i> as password</span>
+            li: <table>
+            <tr>
+            <th>Team 1</th>
+            <th>Points 1</th>
+            <th>Team 2</th>
+            <th>Points 2</th>
+            </tr>
+            <tr>
+            <td>#{data[0].teams[0].name}</td>
+            <td>#{data[0].teams[0].points}</td>
+            <td>#{data[0].teams[1].name}</td>
+            <td>#{data[0].teams[1].points}</td>
+            <tr>
+            <td>#{data[1].teams[0].name}</td>
+            <td>#{data[1].teams[0].points}</td>
+            <td>#{data[1].teams[1].name}</td>
+            <td>#{data[1].teams[1].points}</td>
+            </table>
