@@ -1,0 +1,32 @@
+[
+  {
+    "teams": [
+      {
+        "name": "Dinamo Zagreb",
+        "points": "3"
+      },
+      {
+        "name": "NK Lokomotiva",
+        "points": "2"
+      }
+    ],
+    "comments": [
+      {
+        "author": "yilinglaozu",
+        "text": "I don't even like football."
+      }
+    ]
+  },
+  {
+    "teams": [
+      {
+        "name": "Osijek",
+        "points": "2"
+      },
+      {
+        "name": "HNK Gorica",
+        "points": "1"
+      }
+    ]
+  }
+]

@@ -1,0 +1,10 @@
+html
+    head
+        title Basic Auth demo
+    body
+        if user
+            h1 Welcome #{user.username}
+        ul
+            li: a(href='/', title='Home') Home
+            li: a(href='/private') Private content (only for Alice and Bob)
+            li: <span>Note: Use <i>some password</i> as password</span>

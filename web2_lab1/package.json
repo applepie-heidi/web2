@@ -1,0 +1,35 @@
+{
+  "name": "web2_lab1",
+  "version": "1.0.0",
+  "description": "First web2 lab",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm run clean && tsc && npm run copy-files",
+    "clean": "if [ -d dist ]; then rm -rf dist; fi",
+    "copy-files": "rsync -a src/views/ dist/views/",
+    "start": "node dist/webapp.js"
+  },
+  "keywords": [],
+  "author": "Heidi Sokolovski",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/applepie-heidi/web2.git"
+  },
+  "bugs": {
+    "url": "https://github.com/applepie-heidi/web2/issues"
+  },
+  "homepage": "https://github.com/applepie-heidi/web2#readme",
+  "dependencies": {
+    "typescript": "^4.8.4",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-openid-connect": "^2.5.0",
+    "fs": "0.0.1-security",
+    "https": "^1.0.0",
+    "pug": "^3.0.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.14"
+  }
+}
