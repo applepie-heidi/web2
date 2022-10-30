@@ -1,24 +1,26 @@
 import express from 'express';
-import fs, {open} from 'fs';
+import fs from 'fs';
 import path from 'path'
 import https from 'https';
 import {auth, requiresAuth} from 'express-openid-connect';
 import dotenv from 'dotenv'
 import * as data from './data.json';
+
 dotenv.config()
 
 const app = express();
 app.set("views", path.join(__dirname, "views"));
 app.set('view engine', 'pug');
 
-const port = 4080;
+const externalUrl = process.env.RENDER_EXTERNAL_URL;
+const port = externalUrl && process.env.PORT ? parseInt(process.env.PORT) : 4080;
 const admin = "admin"
 
 const config = {
     authRequired: false,
     idpLogout: true, //login not only from the app, but also from identity provider
     secret: 'proizvoljno',
-    baseURL: `https://localhost:${port}`,
+    baseURL: externalUrl || `https://localhost:${port}`,
     clientID: 'g6rdQD7fL1mWB106rr34IoulMRihesB4',
     issuerBaseURL: 'https://dev-a1hoxpqf7enjxxm0.us.auth0.com',
     clientSecret: 'wzPxhWC2R5ywVSvzYWEHz0jwIdU5zhAivEU7SQwowzQie85SelqTci6BbBUo9djP',
@@ -63,18 +65,19 @@ app.get("/logout", (req, res) => {
     })
 });
 
-https.createServer({
-    key: fs.readFileSync('server.key'),
-    cert: fs.readFileSync('server.cert')
-}, app)
-    .listen(port, function () {
-        console.log(`Server running at https://localhost:${port}/`);
+if (externalUrl) {
+    const hostname = '127.0.0.1';
+    app.listen(port, hostname, () => {
+        console.log(`Server locally running at http://${hostname}:${port}/ and from
+outside on ${externalUrl}`);
     });
-
-/*
-const { requiresAuth } = require('express-openid-connect');
-
-app.get('/profile', requiresAuth(), (req, res) => {
-  res.send(JSON.stringify(req.oidc.user));
-});
- */
+}
+else {
+    https.createServer({
+        key: fs.readFileSync('server.key'),
+        cert: fs.readFileSync('server.cert')
+    }, app)
+        .listen(port, function () {
+            console.log(`Server running at https://localhost:${port}/`);
+        });
+}
