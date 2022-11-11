@@ -1,0 +1,37 @@
+{
+  "name": "web2_lab2",
+  "version": "1.0.0",
+  "description": "Second web2 lab",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm run clean && tsc && npm run copy-files",
+    "clean": "if [ -d dist ]; then rm -rf dist; fi",
+    "copy-files": "rsync -a src/views/ dist/views/; rsync -a src/public/ dist/public/",
+    "start": "node dist/server.js"
+  },
+  "keywords": [],
+  "author": "Heidi Sokolovski",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/applepie-heidi/web2.git"
+  },
+  "bugs": {
+    "url": "https://github.com/applepie-heidi/web2/issues"
+  },
+  "homepage": "https://github.com/applepie-heidi/web2#readme",
+  "dependencies": {
+    "typescript": "^4.8.4",
+    "cookie-parser": "^1.4.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "pug": "^3.0.2",
+    "pg": "^8.8.0"
+  },
+  "devDependencies": {
+     "@types/cookie-parser": "^1.4.3",
+    "@types/express": "^4.17.14",
+    "@types/pg": "^8.6.5"
+  }
+}
+

@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "lib": [
+            "es5",
+            "es6",
+            "dom"
+        ],
+        "resolveJsonModule": true,
+        "esModuleInterop": true,
+        "target": "es5",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "outDir": "./dist",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "sourceMap": true,
+        "strict": true,
+        // "noUnusedLocals":true,
+        "noImplicitAny": true,
+        "downlevelIteration": true
+    }
+}

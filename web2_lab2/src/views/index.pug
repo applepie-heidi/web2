@@ -1,0 +1,13 @@
+html
+    head
+        title Cookie login demo
+    body
+        if user
+            h1 Welcome #{user.username}
+        ul
+            li: a(href='/', title='Home') Home
+            li: a(href='/private') Private content
+            if user
+                li: form(action="/logout", method="post")
+                    input(type="submit", value="Logout " + user.username)
+

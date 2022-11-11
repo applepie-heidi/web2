@@ -1,0 +1,37 @@
+html
+    head
+        style
+            include ../public/css/login.css
+        title Demo login
+    body
+        div(class="login-form")
+            h1 Demo Login
+            form(action="", method="post")
+                label(for="username") Username:
+                input(type="text", id="username", name="username", required)
+
+                label(for="password") Password:
+                input(type="password", id="password", name="password", required)
+
+                br
+                input(type="checkbox", name="unsecure_sql", id="unsecure_sql", value="SQL", onchange="toggle(this, \"sql_info\")")
+                label(for="unsecure_sql") Unsecure SQL
+
+                br
+                input(type="checkbox", name="unsecure_auth", id="unsecure_auth", value="AUTH", onchange="toggle(this, \"auth_info\")")
+                label(for="unsecure_auth") Unsecure Auth
+                br
+                br
+
+                input(type="submit", value="Login")
+            label #{message}
+
+        div.unsecure-info
+            p(id="sql_info", class="hidden")
+                | Informacije su vidljive kada je odabrana SQL kućica
+
+            p(id="auth_info", class="hidden")
+                | Informacije su vidljive kada je odabrana AUTH kućica
+
+        script(type="text/javascript")
+            include ../public/js/login.js
