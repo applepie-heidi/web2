@@ -41,6 +41,7 @@ export async function userExists(username: string) {
     });
     return comments.length != 0;
 }
+
 /*
 const sqlVulnerableCheckbox = document.getElementById(
     'vul1',
@@ -127,7 +128,15 @@ app.get('/private', auth.requiresAuthentication, async function (req, res) {
 });
 
 const hostname = '127.0.0.1';
-const port = 4050;
-app.listen(port, hostname, () => {
-    console.log(`Server running at http://${hostname}:${port}/`);
-});
+const externalUrl = process.env.RENDER_EXTERNAL_URL;
+const port = externalUrl && process.env.PORT ? parseInt(process.env.PORT) : 4080;
+if (externalUrl) {
+    app.listen(port, hostname, () => {
+        console.log(`Server locally running at http://${hostname}:${port}/ and fromoutside on ${externalUrl}`);
+    });
+
+} else {
+    app.listen(port, hostname, () => {
+        console.log(`Server running at http://${hostname}:${port}/`);
+    });
+}
