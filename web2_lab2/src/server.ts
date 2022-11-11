@@ -19,18 +19,23 @@ const poolCfg = {
 };
 const pool = new Pool(poolCfg);
 
-export async function getUserPass(username: string, vulnerable: boolean = false) {
-    console.log("getUserPass", username, vulnerable);
+export async function validatePassword(username: string, password: string, vulnerable: boolean = false) {
+    console.log("validatePassword", username, vulnerable);
     let results: QueryResult;
     if (vulnerable) {
-        results = await pool.query("SELECT pass FROM info WHERE username = '".concat(username).concat("'"));
+        // SELECT pass FROM info WHERE username = 'sandushengshou' OR '1'='1'
+        results = await pool.query("SELECT pass FROM info WHERE username = '" + username + "' AND pass = '" + password + "'");
+        console.log("rows", typeof results.rows, results.rows);
+        return results.rows.length > 0;
     } else {
-        results = await pool.query("SELECT pass FROM info WHERE username = $1", [username]);
+        results = await pool.query("SELECT pass FROM info WHERE username = $1 AND pass = $2", [username, password]);
+        console.log("rows", typeof results.rows, results.rows);
+        return results.rows.length == 1;
     }
-    console.log("rows", typeof results.rows, results.rows);
-    let password = results.rows.length ? results.rows[0]["pass"] : null;
-    console.log("getUserPass -> ", password);
-    return password;
+    //return results.rows.length
+    //let password = results.rows.length ? results.rows[0]["pass"] : null;
+    //console.log("getUserPass -> ", password);
+    //return password;
 }
 
 export async function userExists(username: string) {
@@ -68,36 +73,27 @@ app.get('/login', function (req, res) {
     res.render('login');
 });
 
-let loginAttempts = 0;
 
 app.post('/login', async function (req, res) {
-    loginAttempts += 1;
     const username = req.body.username;
     const password = req.body.password;
     const sqlVulnerable = req.body.unsecure_sql === "SQL";  // "SQL" ako kliknuto inače undefined
     const authVulnerable = req.body.unsecure_auth === "AUTH";
     console.log("POST /login", username, password, "sqlVulnerable", sqlVulnerable, "authVulnerable", authVulnerable);
-    let storedPassword = await getUserPass(username, sqlVulnerable);
-    if (password !== storedPassword) {
+    let validPassword = await validatePassword(username, password, sqlVulnerable);
+    if (!validPassword) {
         console.log("POST /login rendering login");
         if (authVulnerable) {
-            if (storedPassword == null) {
-                res.render('login', {message: "Wrong username."});
-            } else {
+            if (await userExists(username)) {
                 res.render('login', {message: "Wrong password."});
+            } else {
+                res.render('login', {message: "Wrong username."});
             }
         } else {
-            if (loginAttempts > 2) {
-                console.log("Too many login attempts.")
-                res.render('login', {message: "Too many login attempts."});
-                await sleep(20000);
-            } else {
-                console.log("Wrong username or password.")
-                res.render('login', {message: "Wrong username or password."});
-            }
+            console.log("Wrong username or password.")
+            res.render('login', {message: "Wrong username or password."});
         }
     } else {
-        loginAttempts = 0;
         console.log("POST /login signing in user");
         auth.signInUser(res, username);
 

@@ -27,11 +27,17 @@ html
             label #{message}
 
         div.unsecure-info
-            p(id="sql_info", class="hidden")
-                | Informacije su vidljive kada je odabrana SQL kućica
+            div(id="sql_info", class="hidden")
+                | The features of unsecure sql is the available use of injections.
+                | Use the following data:
+                ul
+                    li username:
+                        code sandushengshou
+                    li password:
+                        code a' OR '1'='1
 
             p(id="auth_info", class="hidden")
-                | Informacije su vidljive kada je odabrana AUTH kućica
+                | The features of unsecure auth is a precise message which tells if the username or the password is wrong.
 
         script(type="text/javascript")
             include ../public/js/login.js
